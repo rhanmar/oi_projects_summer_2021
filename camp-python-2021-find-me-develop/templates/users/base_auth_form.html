@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block body %}
+  <div class="form_block">
+    <form method="post" class="form_log" id="{% block form_id %}{% endblock %}"
+          enctype="multipart/form-data">
+      <div class="d-flex justify-content-center" id="form_header">
+        <h4>{% block form_title %}{% endblock %}</h4>
+      </div>
+      {% include "messages.html" %}
+      {% block form %}{% endblock %}
+    </form>
+  </div>
+{% endblock %}

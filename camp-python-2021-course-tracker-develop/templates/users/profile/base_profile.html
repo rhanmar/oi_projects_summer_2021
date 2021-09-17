@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block body %}
+  <div class="wrapper p-3">
+    {% include 'include/navbar.html' %}
+
+    {% block profile %}{% endblock %}
+
+  </div>
+{% endblock %}

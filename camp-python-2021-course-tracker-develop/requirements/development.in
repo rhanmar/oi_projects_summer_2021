@@ -1,0 +1,54 @@
+-r production.txt
+
+# The Django Debug Toolbar is a configurable set of panels that display various debug information
+# about the current request/response and when clicked, display more details about the panel's content.
+# https://django-debug-toolbar.readthedocs.io/en/latest/
+django-debug-toolbar
+
+# Needed to run runserver_plus
+Werkzeug
+
+# Tools for ordered models
+# https://github.com/django-ordered-model/django-ordered-model
+django-ordered-model
+
+# Filter querysets dynamically
+# https://django-filter.readthedocs.io/en/stable/
+django-filter
+
+# Advanced text edition tool
+# https://github.com/django-ckeditor/django-ckeditor
+django-ckeditor
+
+# Django OAuth tool
+# https://github.com/pennersr/django-allauth
+django-allauth
+
+# Improved REPL
+ipdb
+ipython
+ptipython
+ptpython
+jupyter
+
+# Linters
+# https://pylama.readthedocs.io/en/latest/#configuration-files
+pylint
+pylint_django
+pylint-pytest
+pylint_quotes
+
+# https://flake8.pycqa.org/en/latest/
+flake8
+
+# For proper import sorting
+isort
+
+# Style
+django-crispy-forms
+
+# Web-hooks
+django-github-webhook
+
+# Django-channels
+channels

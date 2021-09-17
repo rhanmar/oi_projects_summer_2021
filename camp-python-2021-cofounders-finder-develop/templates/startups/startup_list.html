@@ -1,0 +1,28 @@
+{% extends "base_with_new_message_notification.html" %}
+
+
+{% block style %}
+  .startup_info {
+  margin: 1%; /* Отступы вокруг элемента */
+  background: #d0fcfb; /* Цвет фона */
+  width: 30%;
+  }
+{% endblock %}
+
+{% block content %}
+  <h1>List of startups: {{ startups_amount }}</h1>
+  {% for startup in startups %}
+    <div class="startup_info">
+      <h4><b><a
+              href="{% url 'startups:startup_detail' startup.pk %}">{{ startup.title }}</a></b></h4>
+      <b>Status:</b> {{ startup.status }}<br>
+      {% if not startup.owner %}
+        <code>Aggregated from other service.</code>
+      {% else %}
+      <b>Owner:</b> {{ startup.owner }}
+    {% endif %}<br>
+      <b>Text:</b> {{ startup.text }}
+    </div>
+  {% endfor %}
+  {% include 'include/pagination.html' %}
+{% endblock %}

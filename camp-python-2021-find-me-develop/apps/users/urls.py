@@ -1,0 +1,116 @@
+from django.contrib.auth.views import LogoutView, PasswordResetDoneView
+from django.urls import path
+
+from .views import (
+    BannedUserView,
+    IndexView,
+    UserAddReportView,
+    UserAddReviewView,
+    UserAddToBlacklistView,
+    UserBlacklistView,
+    UserDeleteReviewView,
+    UserDetailReviewView,
+    UserEditProfileView,
+    UserEditReviewView,
+    UserLoginView,
+    UserPasswordResetConfirmView,
+    UserPasswordResetView,
+    UserProfileView,
+    UserRegisterView,
+    UserRemoveFromBlacklistView,
+    UserReviewsView,
+)
+from .views.top_users import TopUsersView
+
+urlpatterns = [
+    path("", IndexView.as_view(), name="index"),
+    path("sign-up/", UserRegisterView.as_view(), name="sign_up"),
+    path("login/", UserLoginView.as_view(), name="login"),
+    path(
+        "logout/",
+        LogoutView.as_view(),
+        name="logout"
+    ),
+    path(
+        "password-reset/",
+        UserPasswordResetView.as_view(),
+        name="reset_password"
+    ),
+    path(
+        "password-reset/done/",
+        PasswordResetDoneView.as_view(
+            template_name="users/reset_password_done.html"
+        ),
+        name="reset_password_done"
+    ),
+    path(
+        "password-reset-confirm/<uidb64>/<token>/",
+        UserPasswordResetConfirmView.as_view(),
+        name="reset_password_confirm"
+    ),
+    path(
+        "profile/<int:user_id>/",
+        UserProfileView.as_view(),
+        name="user_profile"
+    ),
+    path(
+        "profile/<int:user_id>/reviews/add/",
+        UserAddReviewView.as_view(),
+        name="user_add_review"
+    ),
+    path(
+        "profile/<int:user_id>/reviews/<int:review_id>/edit/",
+        UserEditReviewView.as_view(),
+        name="user_edit_review"
+    ),
+    path(
+        "profile/<int:user_id>/reviews/<int:review_id>/detail/",
+        UserDetailReviewView.as_view(),
+        name="user_detail_review"
+    ),
+    path(
+        "profile/<int:user_id>/reviews/<int:review_id>/delete/",
+        UserDeleteReviewView.as_view(),
+        name="user_delete_review"
+    ),
+    path(
+        "profile/<int:user_id>/reviews/",
+        UserReviewsView.as_view(),
+        name="user_reviews"
+    ),
+    path(
+        "profile/",
+        UserEditProfileView.as_view(),
+        name="user_edit"
+    ),
+    path(
+        "profile/<int:user_id>/add-report",
+        UserAddReportView.as_view(),
+        name="user_add_report"
+    ),
+    path(
+        "top-users/",
+        TopUsersView.as_view(),
+        name="top_users"
+    ),
+    path(
+        "ban-page/",
+        BannedUserView.as_view(),
+        name="ban_page"
+    ),
+    path(
+        "blacklist/<int:user_id>/add",
+        UserAddToBlacklistView.as_view(),
+        name="user_blacklist_add"
+    ),
+    path(
+        "blacklist/<int:bl_item_id>/remove",
+        UserRemoveFromBlacklistView.as_view(),
+        name="user_blacklist_remove"
+    ),
+    path(
+        "blacklist/",
+        UserBlacklistView.as_view(),
+        name="user_blacklist"
+    )
+]

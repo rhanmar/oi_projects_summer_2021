@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block body %}
+  <main>
+    <h1>Find.me</h1>
+    <div class="d-flex flex-column" id="index_block">
+      <h2>Hello! Welcome to our service.</h2>
+      <p class="fs-4">Here you can leave your location on a map and find a lot of people
+        for a good meeting.</p>
+      <h3>Have fun!</h3>
+      <div class="d-flex flex-row justify-content-center" id="btns_block">
+        <a href="{% url "sign_up" %}" class="btn btn-success">Sign up</a>
+        <span class="fs-5">or</span>
+        <a href="{% url "login" %}" class="btn btn-dark">Login</a>
+      </div>
+    </div>
+  </main>
+{% endblock %}

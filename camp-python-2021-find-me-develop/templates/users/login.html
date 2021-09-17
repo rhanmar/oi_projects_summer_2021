@@ -1,0 +1,26 @@
+{% extends "users/base_auth_form.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Login{% endblock %}
+
+{% block form_title %}Login{% endblock %}
+
+{% block form %}
+  {% csrf_token %}
+  {{ form|crispy }}
+  <div class="mb-3 d-flex flex-column">
+    <div id="password_reset">
+          <span class="mr-1">Forgot your password?
+            <a href="{% url "reset_password" %}" class="btn btn-link" id="btn_reset"> Reset </a>
+          </span>
+    </div>
+  </div>
+
+  <div class="d-flex flex-column justify-content-center">
+    <button type="submit" class="btn btn-success mb-4">Log in</button>
+    <div class="block_redirect">
+      <label>Do not you have an account?</label>
+      <a href="{% url "sign_up" %}" class="btn btn-success">Sign up</a>
+    </div>
+  </div>
+{% endblock %}

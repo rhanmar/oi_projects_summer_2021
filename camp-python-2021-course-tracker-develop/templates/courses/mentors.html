@@ -1,0 +1,38 @@
+{% extends 'index_base.html' %}
+
+{% block title %}Mentors{% endblock %}
+
+{% block body %}
+
+  {% include 'include/navbar.html' %}
+  <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+    <h2 class="display-7 fw-normal">{{ task.title }}</h2>
+  </div>
+
+  <div class="container">
+    <div class="mentors">
+      {% if mentors %}
+      {% for mentor in mentors %}
+
+        <div class="d-flex flex-column mb-4 mentor p-3">
+          <div class="d-flex align-items-center mb-3">
+            <img src="{{ mentor.profile_image_thumbnail.url }}" alt="" class="mentor_img">
+            <div class="d-flex flex-column">
+              <span class="fs-4 fw-bold text-wrap">{{ mentor.get_full_name }}</span>
+              <span class="fs-5">Github: {{ mentor.github_username }}</span>
+            </div>
+            <br>
+          </div>
+          <h5 class="fw-bold">BIO:</h5>
+          <span class="mb-3">{{ mentor.bio|safe }}</span>
+          <div><a href="{% url "user" mentor.id %}" class="btn btn-dark">View more</a></div>
+        </div>
+
+        {% endfor %}
+      {% else %}
+        <h2>Now you haw not any course. Please ping your mentors in offline that they
+    connect us to course!</h2>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

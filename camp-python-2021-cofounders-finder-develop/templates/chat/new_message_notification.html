@@ -1,0 +1,14 @@
+<script>
+  const chatSocket = new WebSocket(
+    'ws://'
+    + window.location.host
+    + '/ws/chat/'
+  );
+  chatSocket.onmessage = function(e) {
+    const data = JSON.parse(e.data);
+    window.alert('New message \n' + 'Sender: ' + data.sender_email + '\n' + data.message);
+  };
+  chatSocket.onclose = function(e) {
+    console.error('Chat socket closed unexpectedly');
+  };
+</script>

@@ -1,0 +1,53 @@
+{% extends "base_with_new_message_notification.html" %}
+
+{% block style %}
+  .user_content * {
+    margin: 5px;
+  }
+{% endblock %}
+
+{% block content %}
+  <h2>Information about user {{ user.email }}</h2>
+  {% if user.avatar %}
+    <img src="{{ user.avatar_thumbnail.url }}" alt="Profile Image">
+  {% endif %}
+
+  <div class="user_content">
+    Name: {{ user.first_name }}, {{ user.last_name }}
+    <br>
+    Email: {{ user.email }}
+    <br>
+    Location: {{ user.location }}
+    <br>
+    <a class="btn btn-secondary"
+       href="{% url "account_update" %}">Settings</a>
+    <div>
+        <a class="btn btn-secondary"
+               href="{% url "account_cvs" %}">My CVs</a>
+    </div>
+
+    <a href={% url "create_cv" %}>Create CV</a>
+
+    {% if user.urls %}
+      {% for url in user.urls.all %}
+        <p>url: {{ url.url }}</p>
+      {% endfor %}
+    {% endif %}
+  </div>
+
+  <br>
+  <br>
+  <h2>Your startups:</h2>
+  {% if not user.startups.exists %}
+  <h3>Oops, you have not created startups yet...</h3>
+  {% endif %}
+  {% for startup in user.startups.all %}
+    <div class="startup_info">
+      <h4><b><a
+              href="{% url 'startups:startup_detail' startup.pk %}">{{ startup.title }}</a></b></h4>
+      <b>Status:</b> {{ startup.status }}<br>
+      <b>Text:</b> {{ startup.text }}
+    </div>
+  {% endfor %}
+
+{% endblock %}

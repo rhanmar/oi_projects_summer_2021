@@ -1,0 +1,40 @@
+{% extends "index_base.html" %}
+{% load crispy_forms_tags %}
+{% block body %}
+  {% include 'include/navbar.html' %}
+
+  <div class="container">
+    <div class="single_solution">
+      <p>Solution for {{ solution.task }}</p>
+      {{ solution.solution_description|safe }}
+      {% if solution.attachment %}
+        <p>
+          Attachment: <a
+                href={{ solution.attachment.url }}>{{ solution.filename }}</a>
+        </p>
+      {% endif %}
+      <p>by {{ solution.owner }}</p>
+      {% if not current_user_evaluation %}
+        <form method="post">
+        {% csrf_token %}
+        {{ form.media }}
+        {{ form|crispy }}
+        {{ form.comment.errors }}
+        <button class="btn btn-primary btn-block" type="submit"
+                value="Send request">Add evaluation
+        </button>
+      {% else %}
+        <h4>Your comment:</h4>
+        {{ current_user_evaluation.comment|safe }}
+        <p>Mark: {{ current_user_evaluation.mark }}</p>
+        <a class="btn btn-primary"
+           href={% url "delete_solution" current_user_evaluation.pk %}>
+          Delete your evaluation</a>
+        <a class="btn btn-primary"
+           href={% url "update_evaluation" current_user_evaluation.pk %}>
+          Update your evaluation</a>
+      {% endif %}
+      </form>
+    </div>
+  </div>
+{% endblock %}

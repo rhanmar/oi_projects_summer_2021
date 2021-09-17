@@ -1,0 +1,16 @@
+<div class="sidenav" id="sidenav">
+  <div class="sidenav-header">
+    Dialogs
+  </div>
+  {% if not dialogs %}
+    <a href="{% url 'chat_room' view.kwargs.user_pk %}"> {{ receiver.email }} </a>
+  {% else %}
+    {% for dialog in dialogs %}
+      {% if dialog.user1.pk == view.request.user.pk %}
+        <a href="{% url 'chat_room' dialog.user2.pk %}">{{ dialog.user2.email }}</a>
+      {% else %}
+        <a href="{% url 'chat_room' dialog.user1.pk %}">{{ dialog.user1.email }}</a>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+</div>

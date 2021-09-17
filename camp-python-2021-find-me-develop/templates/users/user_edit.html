@@ -1,0 +1,26 @@
+{% extends "users/base_user_profile.html" %}
+{% load crispy_forms_tags %}
+
+
+{% block profile_action %}edit{% endblock %}
+
+{% block profile_content %}
+  <form action="{% url "user_edit" %}" method="post" id="form_user_edit" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="d-flex justify-content-center mb-3 form_header">
+      <h4>Edit information</h4>
+    </div>
+    {% if has_avatar %}
+      <img src="{{ user.avatar.url }}" alt="User avatar"
+           style="height: 200px; width: 20em;">
+    {% endif %}
+    <div class="form-content">
+      {{ form|crispy }}
+    </div>
+
+    <div class="mt-3 d-flex justify-content-center">
+      <button type="submit" class="btn btn-success">Save</button>
+    </div>
+  </form>
+{% endblock %}

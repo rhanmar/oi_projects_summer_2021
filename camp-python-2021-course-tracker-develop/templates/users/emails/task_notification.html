@@ -1,0 +1,26 @@
+{% extends "email_base.html" %}
+{% load i18n %}
+
+{% block email_body %}
+{% autoescape off %}
+{% blocktrans with app_url=app_url app_label=app_label %}
+  <p>Hello from {{ app_label }}!</p>
+
+  <p>
+    You don't add solution for tasks which reading date already end.
+    <br>
+  </p>Click the link for add solution for task.
+{% endblocktrans %}
+{% for task in tasks %}
+  <p>
+    - <a href="{{app_url}}{%url "task-detail" pk=task.id %}">{{ task.title }}</a>
+  </p>
+{% endfor %}
+
+<p>
+  {% blocktrans with app_label=app_label %}
+    Thank you for using {{ app_label }}!
+  {% endblocktrans %}
+</p>
+{% endautoescape %}
+{% endblock %}

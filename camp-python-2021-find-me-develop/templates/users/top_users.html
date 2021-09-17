@@ -1,0 +1,20 @@
+{% extends "users/base_user_profile.html" %}
+{% load static %}
+{% block profile_content %}
+  <div class="d-flex justify-content-center mb-4" id="reviews_header">
+    <h4>Top Users</h4>
+  </div>
+  <div id="reviews">
+      {% for user in users %}
+         <div class="card">
+            <div class="card-header">
+              {{  user.rating }} <i class="fas fa-star"></i>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">{{ user.get_fullname }} </h5>
+              <a href="{% url 'user_profile' user.id %}" class="btn btn-primary">Profile</a>
+            </div>
+         </div>
+      {% endfor %}
+  </div>
+{% endblock %}

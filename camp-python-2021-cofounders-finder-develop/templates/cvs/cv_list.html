@@ -1,0 +1,18 @@
+{% extends "base_with_new_message_notification.html" %}
+{% block style %}
+  .cvs_info {
+  margin-left: 3%;
+  }
+{% endblock %}
+{% block content %}
+  <h2>List of CVs: {{ cvs_amount }}</h2>
+  {% for cv in cvs %}
+    <h4>CV of {{ cv.owner.email }}:</h4>
+    <div class="cvs_info">
+      <p>Title: {{ cv.title }}
+      <p>Description: {{ cv.description }}
+      <p><a href={% url "cv_detail" cv.pk %}>View more</a></p>
+    </div>
+  {% endfor %}
+  {% include 'include/pagination.html' %}
+{% endblock %}

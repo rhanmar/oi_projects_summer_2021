@@ -1,0 +1,66 @@
+{% extends "base_with_new_message_notification.html" %}
+{% load index %}
+{% load crispy_forms_tags %}
+{% block style %}
+  .cvs_info {
+  margin-left: 3%;
+  }
+  .row {
+  margin-bottom: 3%;
+  }
+  button {
+    width: 50%;
+  }
+{% endblock %}
+{% block content %}
+  <h4>Owner: {{ cv.owner.first_name }} {{ cv.owner.last_name }}</h4>
+  <div class="cvs_info">
+    <p>Title: {{ cv.title }}</p>
+    <p>Description: {{ cv.description }}</p>
+    <p>Email: {{ cv.owner.email }}</p>
+    <p>Created data: {{ cv.created }}</p>
+    <a class="btn btn-secondary" href="{% url 'user_profile' cv.owner.pk %}">Profile</a>
+    <div class="cvs_info">
+      {% if cv.evaluate_skills %}
+        <h5>Skills:</h5>
+        {% for skill in cv.evaluate_skills.all %}
+          <div class="row">
+            <div class="col-lg-2">
+              <p>{{ skill }} </p>
+              <div class="cvs_info">
+                <p>Approved by {{ skill.sum_of_approved }}</p>
+                <p>Opposite by {{ skill.sum_of_opposite }}</p>
+              </div>
+            </div>
+            <div class="col-lg-5">
+              {% for evaluation_info in skill.evaluated_skill.all %}
+                <div class="d-flex flex-wrap">
+                  <div class="p-1">
+                    Comment: "{{ evaluation_info.comment }}" by
+                    {{ evaluation_info.owner }}.
+                    Approved: {{ evaluation_info.is_approved }}
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          {% if forms %}
+            <div class="col-lg-5">
+                <form method="post" action="">
+                  {% csrf_token %}
+
+                  {{ forms|index:forloop.counter0|crispy }}
+                  <button class="btn btn-primary" type="submit"
+                          value="Create">
+                    Add review
+                  </button>
+                </form>
+            </div>
+          {% endif %}
+          </div>
+        {% endfor %}
+      {% else %}
+        <p>Haven't skills =(</p>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

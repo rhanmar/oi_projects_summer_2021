@@ -1,0 +1,51 @@
+-r production.txt
+
+# The Django Debug Toolbar is a configurable set of panels that display various debug information
+# about the current request/response and when clicked, display more details about the panel's content.
+# https://django-debug-toolbar.readthedocs.io/en/latest/
+django-debug-toolbar
+
+# Needed to run runserver_plus
+Werkzeug
+
+# To run runserver_plus with SSL support
+pyOpenSSL
+
+# Improved REPL
+ipdb
+ipython
+ptipython
+ptpython
+jupyter
+
+# Linters
+# https://pylama.readthedocs.io/en/latest/#configuration-files
+pylint
+pylint_django
+pylint-pytest
+pylint_quotes
+
+# https://flake8.pycqa.org/en/latest/
+flake8
+
+# For proper import sorting
+isort
+
+# Crispy forms for Django templates
+django-crispy-forms
+
+# Search plugin
+django-watson
+
+# Lazy fixtures for pytest
+pytest-lazy-fixture
+
+# Channels (for dialogs app)
+channels
+channels_redis
+
+# Define IP and current location from request
+ipinfo_django
+
+# Lib for working with coordinates
+geopy

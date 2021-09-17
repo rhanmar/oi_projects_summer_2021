@@ -1,0 +1,69 @@
+{% extends "base_with_new_message_notification.html" %}
+
+{% block style %}
+  .vacancy_info {
+  margin: 1%; /* Отступы вокруг элемента */
+  background: #d0fcfb; /* Цвет фона */
+  width: 30%;
+  }
+{% endblock %}
+
+
+{% block content %}
+  <h2>{{ vacancy.title }}</h2>
+  <div class="vacancy_info">
+  {% if not vacancy.startup.owner %}
+      <code><a class="text-danger" href="{{ vacancy.url }}">Aggregated from other service.</a></code>
+      {% endif %}<br>
+    <b>Status:</b> {{ vacancy.status }}<br>
+    <b>Description:</b> <i>{{ vacancy.description }}</i><br>
+    <b>Startup:</b> <a href="{% url 'startups:startup_detail' vacancy.startup.pk %}"> {{ vacancy.startup }} </a>
+    <br><br>
+
+    <h5>Skills:</h5>
+    {% for skill in vacancy.skills.all %}
+      <b>{{ skill.name }} </b><br>
+    {% endfor %}
+    <br>
+
+    <h5>Employees:</h5>
+    {% for employee in vacancy.employees.all %}
+      {{ employee.user.first_name }}  {{ employee.user.last_name }}
+      {{ employee.user.email }} <br>
+    {% endfor %}
+    <br>
+
+    <h5>Requests:</h5>
+    {% for request in vacancy.requests.all %}
+      Request from {{ request.user.email }} <br>
+      Message: {{ request.message }} <br><br>
+    {% endfor %}
+    <h5>Send request:</h5>
+    <form method="POST" action="">
+      {% csrf_token %}
+      {% for error in form.non_field_errors %}
+          {{error}}
+      {% endfor %}
+      <div class="fieldWrapper">
+        {{ form.message.errors }}
+        {{ form.message.label_tag }}
+        {{ form.message }}
+      </div>
+      <div class="fieldWrapper">
+        {{ form.status.errors }}
+        {{ form.status.label_tag }}
+        {{ form.status }}
+      </div>
+      <button class="btn btn-primary btn-block" type="submit"
+              value="Send request">Send request
+      </button>
+    </form>
+  </div>
+
+  {% if request.user == vacancy.startup.owner %}
+  <div>
+    <a target="_blank" href="{% url 'startups:vacancy_update' vacancy.pk %}">Update Vacancy</a><br>
+    <a target="_blank" href="{% url 'startups:vacancy_delete' vacancy.pk %}">Delete Vacancy</a><br>
+  </div>
+  {% endif %}
+{% endblock %}

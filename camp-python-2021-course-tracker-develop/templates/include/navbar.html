@@ -1,0 +1,62 @@
+
+<nav class="navbar navbar-expand-md navbar-light" id="header">
+  <div class="container-fluid">
+    <a href="{% url "homepage" %}" class="navbar-brand">Saritasa Camp
+      Tracker</a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#headerAltMarkup" aria-controls="headerAltMarkup"
+            aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-end"
+         id="headerAltMarkup">
+      <div class="d-flex align-items-center navbar-nav">
+
+        <a class="nav-link" href="{% url "homepage" %}">Course</a>
+        <a class="nav-link" href="{% url "mytasks" %}">My tasks</a>
+        <a class="nav-link" href="{% url "mentors" %}">Mentors</a>
+        {% if request.user.is_staff and evaluations %}
+          <button class="btn btn-primary position-relative" type="button"
+                  data-bs-toggle="offcanvas"
+                  data-bs-target="#offcanvasRight"
+                  aria-controls="offcanvasRight">
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            {{ evaluations|length }}
+          </span>
+            Undelivered marks
+          </button>
+          <div class="offcanvas offcanvas-end" tabindex="-1"
+               id="offcanvasRight"
+               aria-labelledby="offcanvasRightLabel">
+            <div class="offcanvas-header">
+              <h5 id="offcanvasRightLabel">Undelivered marks in your
+                evaluations</h5>
+              <button type="button" class="btn-close text-reset"
+                      data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+              {% for evaluation in evaluations %}
+                <p>
+                  Evaluate on:
+                  <a href={% url "solution" evaluation.solution.pk %}>
+                    {{ evaluation.solution|safe }}
+                  </a>
+                  by user {{ evaluation.solution.owner }}
+                </p>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+        <a class="nav-link" href="{% url "user" request.user.id %}">Profile</a>
+        <a class="nav-link fs-4" href="{% url "logout" %}"><i class="fas fa-sign-out-alt"></i></a>
+      </div>
+      {% for evaluation in evaluations %}
+        <div>{{ evaluation.comment }}</div>
+      {% endfor %}
+    </div>
+
+  </div>
+</nav>
+

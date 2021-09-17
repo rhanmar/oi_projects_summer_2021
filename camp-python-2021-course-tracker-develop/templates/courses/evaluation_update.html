@@ -1,0 +1,18 @@
+{% extends 'index_base.html' %}
+{% load crispy_forms_tags %}
+{% block body %}
+  <div class="container">
+    {% include 'include/navbar.html' %}
+    <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+      <h2 class="display-7 fw-normal">{{ task.title }}</h2>
+    </div>
+    <form method="post">{% csrf_token %}
+      {{ form.media }}
+      {{ form|crispy }}
+      {{ form.comment.errors }}
+      <button class="btn btn-primary btn-block" type="submit"
+              value="Send request">Update
+      </button>
+    </form>
+  </div>
+{% endblock %}

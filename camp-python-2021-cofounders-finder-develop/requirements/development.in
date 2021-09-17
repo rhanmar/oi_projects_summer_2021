@@ -1,0 +1,60 @@
+-r production.txt
+
+# The Django Debug Toolbar is a configurable set of panels that display various debug information
+# about the current request/response and when clicked, display more details about the panel's content.
+# https://django-debug-toolbar.readthedocs.io/en/latest/
+django-debug-toolbar
+
+# Needed to run runserver_plus
+Werkzeug
+
+# Tools for modular search.
+# https://django-haystack.readthedocs.io/en/master/
+django-haystack
+
+# Tools for using haystack with API
+# https://github.com/rhblind/drf-haystack
+drf-haystack
+
+# Searching engine for django-haystack
+# https://github.com/mchaput/whoosh/
+Whoosh
+
+# Automatic update of indexes using Celery
+# https://pypi.org/project/celery-haystack-ng/
+# https://edugit.org/AlekSIS/libs/celery-haystack-ng
+celery-haystack-ng
+
+# Automatic and manual queryset caching
+# https://github.com/Suor/django-cacheops
+django-cacheops
+
+# Improved REPL
+ipdb
+ipython
+ptipython
+ptpython
+jupyter
+
+# Linters
+# https://pylama.readthedocs.io/en/latest/#configuration-files
+pylint
+pylint_django
+pylint-pytest
+pylint_quotes
+
+# https://flake8.pycqa.org/en/latest/
+flake8
+
+# For proper import sorting
+isort
+
+# Pleasant information display
+django-autocomplete-light
+django-crispy-forms
+django-bootstrap4
+
+# Django channels for WebSockets
+# https://channels.readthedocs.io/en/latest/index.html
+channels
+channels_redis

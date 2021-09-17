@@ -1,0 +1,73 @@
+{% extends 'index_base.html' %}
+{% load static %}
+
+{% block title %}My tasks{% endblock title %}
+
+{% block body %}
+  <div id="chapters">
+    <!-- Modal -->
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="container">
+            <br>
+            <h3>Topics</h3>
+            <hr>
+            <div v-if="!chapter">
+              Loading data ...
+            </div>
+            <ol>
+              <li v-for="topic in chapter" :key="topic.id">
+                [[ topic.title ]] - [[ topic.speaker ?
+                topic.speaker.get_full_name : 'Not defined' ]]
+                <div>Tasks:</div>
+                <ol>
+                  <li v-for="task in topic.tasks" :key="task.id">
+                    <a v-bind:href="`/task/${task.id}`">[[ task.title ]]</a>
+                  </li>
+                </ol>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      {% include 'include/navbar.html' %}
+      {% if chapters %}
+
+        <h3>Choose chapter:</h3>
+        {% for chapter in chapters %}
+          <button
+                  @click="setId({{ chapter.pk }}); loadData();"
+                  data-toggle="modal"
+                  data-target=".bd-example-modal-lg"
+                  class="btn-secondary"
+          >
+            {{ chapter.title }}
+            ({{ chapter.start_date|date:"d N" }} -
+            {{ chapter.finish_date|date:"d N" }})
+          </button>
+          <br>
+          <br>
+        {% endfor %}
+      {% else %}
+        <br>
+        <br>
+        <h2>Now you haw not any course. Please ping your mentors in offline that they
+    connect us to course!</h2>
+      {% endif %}
+      <!-- Button trigger modal -->
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+          integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+          crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+          integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+          crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/vue@3.1.5/dist/vue.global.js"></script>
+  <script src="{% static 'js/chapters.js' %}"></script>
+{% endblock body %}

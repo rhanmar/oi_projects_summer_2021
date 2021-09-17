@@ -1,0 +1,26 @@
+{% extends "base_with_new_message_notification.html" %}
+
+{% block style %}
+  .vacancy_info {
+  margin: 1%;
+  background: #d0fcfb;
+  width: 30%;
+{% endblock %}
+
+
+{% block content %}
+  <h2>List of Vacancies: {{ vacancies_amount }}</h2>
+  {% for vacancy in vacancies %}
+    <div class="vacancy_info">
+      <b><a href="{% url 'startups:vacancy_detail' vacancy.pk %}">{{ vacancy.title }}</a></b><br>
+      <b>Status:</b> {{ vacancy.status }}<br>
+      {% if not vacancy.startup.owner %}
+      <code><a class="text-danger" href="{{ vacancy.url }}">Aggregated from other service.</a></code>
+      {% endif %}<br>
+      <b>Startup:</b> <a
+            href="{% url 'startups:startup_detail' vacancy.startup.pk %}"> {{ vacancy.startup }} </a><br>
+      <b>Description:</b> <i>{{ vacancy.description|slice:":655" }}</i><br>
+    </div>
+  {% endfor %}
+  {% include 'include/pagination.html' %}
+{% endblock %}

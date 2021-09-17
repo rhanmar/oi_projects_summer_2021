@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Blacklist Message page
+{% endblock %}
+
+
+{% block body %}
+  {% include "navbar.html" %}
+  <main>
+
+    <h1>This user has banned you.</h1>
+
+    {% if not is_profile_in_bl %}
+      <a href="{% url "user_blacklist_add" profile_owner_id %}"
+         class="btn btn-dark">Add to blacklist</a>
+    {% else %}
+      You've banned him too.
+    {% endif %}
+  </main>
+{% endblock %}

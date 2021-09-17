@@ -1,0 +1,20 @@
+{% extends "base_with_new_message_notification.html" %}
+{% load crispy_forms_filters %}
+
+{% block style %}
+  .content-form {
+  width: 600px;
+  }
+{% endblock %}
+{% block content %}
+  <div class="content-form">
+    <h1>Create your cv.</h1>
+    <form method="post">
+      {% csrf_token %}
+      {{ form|crispy }}
+      <button class="btn btn-primary btn-block" type="submit" value="Create">
+        Create
+      </button>
+    </form>
+  </div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Blacklist List page
+{% endblock %}
+
+{% block body %}
+  {% include "navbar.html" %}
+  <main>
+    <h1>My blacklist</h1>
+    {% if blacklist %}
+      <ol>
+        {% for item in blacklist %}
+          <li>
+            <div>
+              {{ item.banned_user.get_fullname }} <br>
+              Add date: {{ item.created }} <br>
+              <a href="{% url "user_blacklist_remove" item.id %}">Remove</a>
+              <a href="{% url "user_profile" item.banned_user.id %}">Profile</a>
+            </div>
+          </li>
+        {% endfor %}
+      </ol>
+    {% else %}
+      There are no users in the blacklist.
+    {% endif %}
+
+  </main>
+{% endblock %}

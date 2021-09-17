@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %} Edit meeting {% endblock %}
+
+{% block body %}
+  {% include "navbar.html" %}
+  <main>
+    <div class="d-flex flex-column content_block">
+      <form method="post" class="d-flex flex-column">
+        <div class="d-flex justify-content-center" id="edit_meeting_header">
+          <h4>Edit meeting: {{ meeting.title }}</h4>
+        </div>
+
+        {% csrf_token %}
+        {{ form|crispy }}
+
+        <div class="mt-3 d-flex justify-content-center">
+          <button type="submit" class="btn btn-dark">Save</button>
+        </div>
+
+      </form>
+    </div>
+  </main>
+{% endblock %}

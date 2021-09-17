@@ -1,0 +1,30 @@
+{% extends "base_with_new_message_notification.html" %}
+
+{% block style %}
+  a {
+    margin-top: 8px;
+  }
+{% endblock %}
+
+{% block content %}
+  <h2>Your CV</h2>
+  <div>
+    Title: {{ cv.title }}
+    <br>
+    Description: {{ cv.description }}
+    <br>
+  </div>
+
+  <h2>Skills:</h2>
+  {% if cv.skills %}
+    {% for skill in cv.skills.all %}
+      <p>{{ skill.name }}</p>
+    {% endfor %}
+  {% else %}
+    <p> You have no skills now </p>
+  {% endif %}
+
+  <a class="btn btn-primary" href={% url "update_cv" cv.pk %}>Setting your CV</a>
+  <br>
+  <a class="btn btn-primary" href={% url "delete_cv" cv.pk %}>Delete CV</a>
+{% endblock %}

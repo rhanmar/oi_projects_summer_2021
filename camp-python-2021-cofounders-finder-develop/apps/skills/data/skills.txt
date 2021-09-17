@@ -1,0 +1,145 @@
+Machine Learning Skills
+Artificial Intelligence
+Cloud Computing
+Data Science
+Cybersecurity
+Big Data
+Soft Skills
+Automation
+Data Analytics
+Linux
+Mobile Application
+Software Development
+UX Design
+Business Analysis
+Virtual Reality
+Web Development
+Backend
+Frontend
+HTML
+CSS
+Python
+Swift
+C
+C++
+R
+Golang (Go)
+Scala
+PowerShell
+Perl
+Haskell
+Kotlin
+Visual Basic
+.NET
+SQL
+Delphi
+MATLAB
+Groovy
+Lua
+Rust
+Ruby
+Pascal
+JavaScript
+Java
+PHP
+C#
+TypeScript
+Shell
+Angular
+ASP.NET/ASP.NET Core
+Express
+Vue
+Spring
+Django
+Django REST Framework
+Flask
+Laravel
+Ruby on Rails
+Symfony
+Gatsby
+Sinatra
+CakePHP
+Horde
+Yii
+Zend
+Zikula
+Bootstrap
+Grails
+Play
+Web2py
+Lumen
+TurboGears
+Phalcon
+FuelPHP
+Spark
+Grok
+Mojolicious
+Fat-Free Framework
+Wicket
+Yesod
+Sencha Ext JS
+Nuxt.js
+Phoenix
+CodeIgniter
+PHPixie
+Javalin
+Silex
+Caliburn Micro
+Ionic
+Xamarin
+PhoneGap
+React Native
+Corona
+jQuery Mobile
+Flutter
+Mobile Angular UI
+Appcelerator Titanium
+Swiftic
+NativeScript
+Framework 7
+Neural Network Libraries
+Apache MXNet
+ML.NET
+Infer.NET
+Chainer
+Horovod
+H2O Q
+Robot Framework
+Gauge
+Pytest
+Jest
+Mocha
+Jasmine
+Nightwatch
+Protractor
+Cypress
+TestProject
+Galen Framework
+WebDriverIO
+OpenTest
+Citrus
+Karate
+Scrapy
+Truffle
+Embark
+Etherlime
+OpenZeppelin Contracts
+Brownie
+Create Eth App
+Exonum
+Hyperledger
+Corda
+MultiChain
+Meteor
+Onsen UI
+SiteWhere
+Electron
+Svelte
+Aurelia
+Mithril
+Bulma
+Microdot
+Rapidoid
+Ktor
+Scalatra
+Toolatra

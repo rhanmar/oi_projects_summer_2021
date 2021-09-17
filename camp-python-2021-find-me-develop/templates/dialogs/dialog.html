@@ -1,0 +1,45 @@
+{% extends "dialogs/base_dialog.html" %}
+{% load static %}
+{% block title %}Meeting dialog{% endblock %}
+{% block styles %}
+  <link rel="stylesheet" href="{% static "dialogs/css/dialog.css" %}">
+{% endblock %}
+{% block body %}
+  <div id="dialog">
+    {% include "dialogs/navbar_chat.html" %}
+    <div class="alert alert-danger" role="alert" id="alert-leave-meeting" style="visibility: hidden;"></div>
+    <div class="container-fluid">
+      <div class="chatbody">
+        <div class="panel panel-primary">
+          <div class="container" id="message-container"></div>
+          <div id="ws-receiver"></div>
+          <div class="container">
+            <div class="panel-footer">
+              <div class="input-group">
+                <input id="chat-message-input" type="text"
+                       class="form-control input-sm chat_input"
+                       placeholder="Write your message here..."/>
+                <span class="input-group-btn">
+                  <button class="btn btn-send" id="btn-chat-message-submit">Send</button>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+          integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+          crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/vue@3.1.5/dist/vue.global.js"></script>
+  {{ json_dialog_id|json_script:"dialog_id" }}
+  {{ json_user_id|json_script:"user_id" }}
+  <script>
+  const dialogUrl = "{% url "v1:dialogs-detail" pk=dialog_id%}";
+  const messagesUrl = "{% url "v1:messages-list" %}";
+  const meetingLeaveUrl = "{% url "v1:meeting-leave" pk=dialog_id %}";
+  </script>
+  <script src="{% static 'dialogs/js/dialog.js' %}"></script>
+{% endblock %}
+

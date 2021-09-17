@@ -1,0 +1,292 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %} Main page {% endblock %}
+
+{% block body %}
+  <div id="wrapper">
+    {% include "navbar.html" %}
+    <div id="page-wrapper">
+      <div class="container-fluid">
+        <div class="d-flex justify-content-center mt-3 mb-4">
+          <h1 class="page-header">Find me!</h1>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div id="map" style="width: 100%; height: 80vh"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block additional %}
+  <div class="modal fade" id="modal_add_meeting" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+       aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <form method="post" enctype="multipart/form-data" id="form_add_meeting">
+        <div class="modal-content">
+
+          <div class="send_process" id="process_add_meeting_modal">
+            <div class="spinner-border" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+
+          <div class="modal-body d-flex flex-column">
+
+            <div class="mb-4 modal_body_header">
+              <h5 class="modal-title modal_header">New meeting</h5>
+              <button type="button" class="btn-close close_meeting_form" data-bs-dismiss="modal"
+                      aria-label="Close"></button>
+            </div>
+
+            <div class="d-flex flex-column">
+              {% csrf_token %}
+              {{ meeting_form|crispy }}
+              <input type="hidden" name="location_add" id="location_field" required>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn_dismiss_modal close_meeting_form" data-bs-dismiss="modal"
+                    id="btn_close_add_meeting_modal">
+              Close
+            </button>
+            <button type="submit" class="btn btn-dark">Add</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modal_detail_meeting" data-bs-keyboard="false" tabindex="-1"
+       aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+
+        <div class="send_process" id="process_detail_meeting">
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+
+        <div class="modal-body d-flex flex-column">
+
+          <div class="mb-4 modal_body_header">
+            <h5 class="modal-title modal_header" id="modal_detail_meeting_label"></h5>
+            <button type="button" class="btn-close close_meeting_form" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+          </div>
+
+          <div class="d-flex flex-column mb-3" id="meeting_detail">
+            <p id="meeting_description"></p>
+            <p class="fs-5" id="meeting_members"></p>
+            <p class="fs-5" id="meeting_deadline"></p>
+            <p class="fs-5"><a id="meeting_owner"></a></p>
+          </div>
+
+
+          <div class="alert alert-dark" role="alert" id="alert_join_meeting"></div>
+
+        </div>
+
+        <div class="modal-footer" id="modal_footer_detail_meeting">
+          <button type="button" class="btn btn_dismiss_modal" id="btn_del_meeting">Delete</button>
+          <button type="button" class="btn btn_dismiss_modal" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn_dismiss_modal" id="btn-delete-review">Delete review</button>
+          <button type="button" class="btn btn_dismiss_modal" id="btn-add-review">Add review</button>
+          <button type="button" class="btn btn_dismiss_modal" id="btn-edit-review">Edit review</button>
+          <button type="button" class="btn btn_dismiss_modal" id="btn-list-reviews">Reviews</button>
+          <button type="button" class="btn btn-success" id="btn_join_meeting">Join</button>
+          <a type="button" class="btn btn-dark" id="btn_edit_meeting">Edit</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modal_detail_user" data-bs-keyboard="false" tabindex="-1"
+       aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+
+        <div class="send_process" id="process_user_modal">
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+
+        <div class="modal-body d-flex flex-column">
+
+          <div class="mb-4 modal_body_header">
+            <h5 class="modal-title modal_header" id="modal_detail_user_label"></h5>
+            <button type="button" class="btn-close close_meeting_form" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+          </div>
+
+          <div class="d-flex flex-row" id="user_detail">
+
+            <img src="" alt="" id="user_avatar">
+            <div class="d-flex flex-column">
+
+              <div class="d-flex flex-row" id="user_name_block">
+                <span class="fs-5" id="user_fullname"></span>
+                <span class="fs-5" id="user_rating"></span>
+                <i class="fas fa-star"></i>
+              </div>
+
+              <p class="fs-5" id="user_email"></p>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="modal-footer" id="modal_footer_user_meeting">
+          <button type="button" class="btn btn-dark" id="btn_go_to_user">User profile</button>
+          <div class="d-flex flex-row">
+            <button type="button" class="btn btn_dismiss_modal" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-success" id="btn_text_user">Text user</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="modal-add-review" data-bs-keyboard="false" tabindex="-1"
+       aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <form method="post" enctype="multipart/form-data" id="form-add-review">
+        <div class="modal-content">
+
+          <div class="send_process" id="process_detail_meeting">
+            <div class="spinner-border" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+
+          <div class="modal-body d-flex flex-column">
+
+            <div class="mb-4 modal_body_header">
+              <h5 class="modal-title modal_header" id="modal-add-review-label">Add review</h5>
+              <button type="button" class="btn-close close_meeting_form" data-bs-dismiss="modal"
+                      aria-label="Close"></button>
+            </div>
+
+            <div class="d-flex flex-column">
+
+              {% csrf_token %}
+              {{ meeting_review_form|crispy }}
+
+            </div>
+
+            <div class="alert alert-danger" role="alert" id="alert-add-review" style="visibility: hidden"></div>
+
+          </div>
+
+          <div class="modal-footer" id="modal_footer_add_review">
+            <button type="button" class="btn btn_dismiss_modal" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-success" id="btn-save-review">Save</button>
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modal-edit-review" data-bs-keyboard="false" tabindex="-1"
+       aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <form method="post" enctype="multipart/form-data" id="form-edit-review">
+        <div class="modal-content">
+
+          <div class="send_process" id="process_detail_meeting">
+            <div class="spinner-border" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+
+          <div class="modal-body d-flex flex-column">
+
+            <div class="mb-4 modal_body_header">
+              <h5 class="modal-title modal_header" id="modal-add-review-label">Edit review</h5>
+              <button type="button" class="btn-close close_meeting_form" data-bs-dismiss="modal"
+                      aria-label="Close"></button>
+            </div>
+
+            <div class="d-flex flex-column">
+
+              {% csrf_token %}
+              {{ meeting_review_form|crispy }}
+
+            </div>
+
+            <div class="alert alert-danger" role="alert" id="alert-edit-review" style="visibility: hidden"></div>
+
+          </div>
+
+          <div class="modal-footer" id="modal_footer_edit_review">
+            <button type="button" class="btn btn_dismiss_modal" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-success" id="btn-save-review">Save</button>
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modal-list-reviews" data-bs-keyboard="false" tabindex="-1"
+       aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+          <div class="send_process" id="process_detail_meeting">
+            <div class="spinner-border" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+
+          <div class="modal-body d-flex flex-column">
+
+            <div class="mb-4 modal_body_header">
+              <h5 class="modal-title modal_header" id="modal-add-review-label">All reviews</h5>
+              <button type="button" class="btn-close close_meeting_form" data-bs-dismiss="modal"
+                      aria-label="Close"></button>
+            </div>
+
+            <div class="d-flex flex-column list-reviews">
+
+            </div>
+
+          </div>
+
+          <div class="modal-footer" id="modal_footer_list_reviews">
+            <button type="button" class="btn btn_dismiss_modal" data-bs-dismiss="modal">Close</button>
+          </div>
+
+        </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    const locationsUrl = "{% url "v1:location-list" %}";
+    const meetingsUrl = "{% url "v1:meeting-list" %}";
+    const reviewsUrl = "{% url "v1:review-list" %}";
+    const visitorId = parseInt("{{ request.user.id }}");
+    let hasVisitorMeeting = "{{ has_visitor_meeting }}" === "EXIST";
+    const baseMeetingUrl = "{% url "main_page" %}meeting/";
+    const isUserLocationVisible = "{{ request.user.is_visible }}" === "True";
+    const changeUserLocationUrl = "{% url "v1:location-change-user-location" %}";
+    const usersBaseUrl = "{% url "v1:users-list" %}";
+    const baseProfileUrl = "{% url "user_edit" %}";
+  </script>
+  <script src="https://api-maps.yandex.ru/2.1/?apikey=cc5e87e9-573c-402a-ae9e-abba66a9f92d&lang=ru_RU"
+          type="text/javascript"></script>
+  <script src="{% static "map/js/event_reverse_geocode.js" %}" type="text/javascript"></script>
+{% endblock %}

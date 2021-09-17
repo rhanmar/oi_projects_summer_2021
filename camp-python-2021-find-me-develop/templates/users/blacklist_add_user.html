@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Blacklist Add page
+{% endblock %}
+
+{% block body %}
+  {% include "navbar.html" %}
+  <main>
+    Are you sure you want to add this user to blacklist?
+    <form method="POST">
+      {% csrf_token %}
+      <input type="submit" value="Confirm" class="btn btn-primary">
+    </form>
+  </main>
+{% endblock %}

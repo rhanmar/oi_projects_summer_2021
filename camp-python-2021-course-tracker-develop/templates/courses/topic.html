@@ -1,0 +1,46 @@
+{% extends "index_base.html" %}
+{% load static %}
+
+{% block title %}{{ topic.title }}
+{% endblock %}
+
+{% block content %}
+  <div class="container d-flex flex-column align-items-center mt-3" id="topic">
+    <div class="mb-3 p-3" id="topic_headers">
+      <h1>{{ topic.title }}</h1>
+      <p>{{ topic.description|safe }}</p>
+      <h3 id="topic_progress_header">Your progress: {{ topic_rating }}%</h3>
+      <div class="progress">
+        <div class="progress-bar" role="progressbar"
+             aria-valuenow="{{ topic_rating }}" aria-valuemin="0"
+             aria-valuemax="100"></div>
+      </div>
+    </div>
+
+    <h4 class="mt-3" id="tasks_header">Tasks:</h4>
+    <div class="mb-4" id="tasks">
+      {% for task in topic.tasks.not_hidden %}
+        <div class="card task_card">
+          <div class="card-body">
+            <h5 class="card-title task_card_title">{{ task.title }}</h5>
+            <p class="card-text task_card_text">
+              {{ task.description|safe|truncatewords:20 }}</p>
+            <a href="{% url "task-detail" task.id %}"
+               class="btn btn-go-to-task">Look inside</a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    {% include "include/comments.html" %}
+
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    const objectId = "{{ topic.id }}";
+    const modelName = "topic";
+  </script>
+  <script src="{% static "js/comment_system.js" %}"></script>
+{% endblock %}

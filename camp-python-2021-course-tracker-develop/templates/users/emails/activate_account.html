@@ -1,0 +1,23 @@
+{% extends "email_base.html" %}
+{% load i18n %}
+
+{% block email_body %}
+  {% autoescape off %}
+	{% blocktrans with app_url=app_url app_label=app_label %}
+      <p>Hello from {{ app_label }}!</p>
+
+      <p>
+        You're receiving this e-mail because you or someone else had attempt
+        to register in <a href="{{ app_url }}">{{ app_label }}</a>.
+        It can be safely ignored if you did not try to register.
+        Click the link below to activate your account.{% endblocktrans %}
+      </p>
+
+      <a href="{{ app_url }}{% url "activate-account" uid64=uid token=token %}">Activate account</a>
+      <p>
+      {% blocktrans with app_label=app_label %}
+          Thank you for using {{ app_label }}!
+      {% endblocktrans %}
+      </p>
+  {% endautoescape %}
+{% endblock %}

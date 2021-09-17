@@ -1,0 +1,23 @@
+{% extends "base_with_new_message_notification.html" %}
+{% load static %}
+{% block content %}
+    <div class="home">
+      <h1>Welcome to Cofounder finder project!</h1>
+      <h2>Create your first startup and find cofounders for it!</h2>
+      <p>
+        Our service allows you to create resumes, startups and vacancies, find
+        colleagues and like-minded people to implement your ideas. You can post
+        your CVs by specifying your skills. You can apply for vacancies,
+        confirm or deny the skills of associates on their resume. You can also
+        chat with the person who posted the resume that interests you.
+      </p>
+      <a class="btn btn-success" href="{% url "startups:startup_create" %}">Start
+        a startup</a>
+      <h2>Find good vacancy in startup and become cofounder of it!</h2>
+      <p>
+        A community where people help each other create useful companies and
+        products. Wherever you were born and wherever you live now. You can do
+        courageous and necessary things with like-minded people.
+      </p>
+    </div>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends "base_with_new_message_notification.html" %}
+{% load crispy_forms_filters %}
+
+{% block style %}
+  .content-form {
+  width: 600px;
+  margin: 50px auto;
+  font-size: 15px;
+  }
+  .delete-row {
+  display: block;
+  margin-left: 75px;
+  color: white;
+  height: 30%;
+  width: 70%;
+  padding: 12%;
+  border-radius: 10px;
+  background-color: #a80332;
+  }
+
+  .add-row {
+  display: block;
+  margin-left: 75px;
+  background-color: #3300FF;
+  color: white;
+  height: 30%;
+  width: 35%;
+  padding: 5%;
+  border-radius: 10px;
+  }
+  table {
+  margin:3%;
+
+  }
+
+{% endblock %}
+
+{% block content %}
+  <div class="content-form">
+
+
+    <form id="myForm" method="POST" action="">
+      <h1>Account settings</h1>
+      <p>Setting your account.</p>
+
+      {% csrf_token %}
+      {{ form|crispy }}
+      {{ formset.management_form }}
+
+      <table border="0" cellpadding="0" cellspacing="0">
+        <tbody>
+        {% for form in formset.forms %}
+          <tr>
+            <td>
+              {{ form.as_p }}
+            </td>
+            <td class="hidden">{{ form.id }}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+      <button class="btn btn-primary btn-block" type="submit" value="Update">
+        Update
+      </button>
+    </form>
+  </div>
+
+  <script type="text/javascript">
+    $(function () {
+      $('#myForm tbody tr').formset({
+        prefix: '{{ formset.prefix }}'
+      });
+    })
+  </script>
+{% endblock %}

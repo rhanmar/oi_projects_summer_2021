@@ -1,0 +1,112 @@
+{% extends "index_base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}Task - {{ task.title }}{% endblock %}
+
+{% block body %}
+  <header>
+    <div class="container">
+      {% include 'include/navbar.html' %}
+      <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+        <h2 class="display-7 fw-normal">{{ task.title }}</h2>
+      </div>
+    </div>
+  </header>
+  <!-- Task !-->
+  <div class="container mb-3">
+    {{ task.description|safe }}
+    {% if not request.user.is_staff %}
+      <form method="post" id="create-update-form" enctype="multipart/form-data">
+        <h4>You can add/update solution</h4>
+        {% csrf_token %}
+        <div class="fieldWrapper">
+          {{ form.media }}
+          {{ form|crispy }}
+          {{ form.solution_description.errors }}
+        </div>
+        <button class="btn btn-primary btn-block" type="submit"
+                value="Send request">Add solution
+        </button>
+        <button class="btn btn-primary" type="button"
+                data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+                aria-controls="offcanvasRight">Check evaluations for your task
+        </button>
+      </form>
+
+      <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight"
+           aria-labelledby="offcanvasRightLabel">
+        <div class="offcanvas-header">
+          <h4 id="offcanvasRightLabel">Your marks</h4>
+          <button type="button" class="btn-close text-reset"
+                  data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          {% if current_solution.evaluated_solution.all %}
+            <h5>Average mark: {{ current_solution.avg_mark }}</h5>
+            {% for evaluate in current_solution.evaluated_solution.all %}
+              <p>Mark: {{ evaluate.mark }}</p>
+              {{ evaluate.comment|safe }}
+              <p>by {{ evaluate.owner }}</p>
+            {% endfor %}
+          {% else %}
+            <p>Now you have not evaluations.</p>
+          {% endif %}
+        </div>
+      </div>
+
+
+    {% else %}
+      <div>
+        <h4>Solutions:</h4>
+        <div class="accordion"
+             id="accordionPanels{{ solution.pk }}">
+          {% for solution in task.solutions.all %}
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="panelsStayOpen-heading
+                  {{ solution.pk }}">
+                <button class="accordion-button" type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#panelsStayOpen-{{ solution.pk }}"
+                        aria-expanded="true"
+                        aria-controls="panelsStayOpen-{{ solution.pk }}">
+                  Solution by {{ solution.owner }}
+                </button>
+              </h2>
+              <div id="panelsStayOpen-{{ solution.pk }}"
+                   class="accordion-collapse collapse"
+                   aria-labelledby="panelsStayOpen-headingOne">
+                <div class="accordion-body">
+                  {{ solution.solution_description|safe }}
+                  Mark: {{ solution.avg_mark }}
+                  <a href={% url "solution" solution.pk %}> Evaluate it</a>
+                </div>
+              </div>
+            </div>
+
+          {% endfor %}
+        </div>
+      </div>
+      <button class="btn btn-primary btn-block" type="submit"
+              value="Send request">Submit solution
+      </button>
+    {% endif %}
+
+  </div>
+  <!-- Task !-->
+  <div class="container">
+    <code>Created at: {{ task.created_at }}</code><br>
+    <code>Last modified at: {{ task.modified_at }}</code>
+  </div>
+
+  {% include "include/comments.html" %}
+
+{% endblock body %}
+
+{% block scripts %}
+  <script>
+    const objectId = "{{ object.id }}";
+    const modelName = "task";
+  </script>
+  <script src="{% static "js/comment_system.js" %}"></script>
+{% endblock %}

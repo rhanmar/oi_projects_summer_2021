@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Ban Page
+{% endblock %}
+
+
+{% block body %}
+  {% include "navbar.html" %}
+  <main>
+    <div class="d-flex flex-column container content_block" id="user_info">
+      <h1>Hello, {{ user.first_name }}!</h1>
+      {% if user.is_banned %}
+        <h2 align="center">You're banned because you have too much
+          reports.</h2>
+      {% else %}
+        <h2 align="center">You're not banned (yet).</h2>
+      {% endif %}
+    </div>
+  </main>
+{% endblock %}

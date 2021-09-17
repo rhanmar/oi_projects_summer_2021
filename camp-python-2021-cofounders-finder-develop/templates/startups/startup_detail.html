@@ -1,0 +1,91 @@
+{% extends "base_with_new_message_notification.html" %}
+
+
+{% block style %}
+  .data-info {
+  margin: 1%;
+  background: #d0fcfb;
+  width: 100%;
+  }
+  textarea {
+  width: 100%;
+  height: 50px;
+  }
+
+{% endblock %}
+
+
+{% block content %}
+  <h2><b>{{ startup.title }}</b></h2>
+  <div class="data-info">
+    <b>Status:</b> {{ startup.status }}<br>
+    <b>Text:</b> {{ startup.text }}<br>
+    {% if not startup.owner %}
+    <code>Aggregated from other service.</code><br>
+    {% else %}
+    <b>Owner:</b> {{ startup.owner }}<br>
+    {% endif %}
+    <b>Created data:</b> {{ startup.created }}<br>
+    <b>Start date:</b> {{ startup.start_date }}<br>
+    <b>End date:</b> {{ startup.end_date }}<br>
+  </div>
+
+  <div class="data-info">
+    {% if startup.vacancies %}
+      <h5>List of vacancies:</h5>
+      {% for vacancy in startup.vacancies.all %}
+        <div class="vacancy">
+          <b>№{{ forloop.counter }}</b><br>
+          <b>Title:</b> <a
+                    href="{% url 'startups:vacancy_detail' vacancy.pk %}">{{ vacancy.title }}</a><br>
+          <b>Status:</b> {{ vacancy.status }}<br>
+          <b>Description:</b> <i>{{ vacancy.description }}</i>
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+
+  <div class="data-info">
+    {% if startup.comments.all %}
+      <div>
+        <h3>Comments</h3>
+        {% for comment in startup.comments.all %}
+          <br>
+          <div class="comment">
+            Title: {{ comment.title }} <br>
+            Author: {{ comment.author }} <br>
+            Created: {{ comment.created }} <br>
+            {% if comment.parent_comment %}
+              Answer for
+              <a href="#comment{{ comment.parent_comment.pk }}">{{ comment.parent_comment }}</a>
+              <br>
+            {% endif %}
+            Text: {{ comment.text }} <br>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    <form method="POST" action={% url "startups:startup_detail" startup.pk %}>
+      {% csrf_token %}
+      {% for error in form.non_field_errors %}
+          {{error}}
+      {% endfor %}
+      <div class="field-wrapper">
+        {{ form.title.errors }}
+        {{ form.title.label_tag }}
+        {{ form.title }}
+      </div>
+      <div class="field-wrapper">
+        {{ form.text.errors }}
+        {{ form.text }}
+      </div>
+      <div class="field-wrapper">
+        {{ form.parent_comment.errors }}
+        {{ form.parent_comment }}
+      </div>
+      <button class="btn btn-primary btn-block" type="submit"
+              value="Add comment">Add comment
+      </button>
+    </form>
+  </div>
+{% endblock %}

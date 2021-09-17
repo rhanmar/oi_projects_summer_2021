@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load watson %}
+{% block title %}
+  Search results
+  {% if query %} for &ldquo;{{ query }}&rdquo; {% endif %}
+{% endblock %}
+{% block body %}
+  {% include "navbar.html" %}
+  <div class="container">
+    <h1>Search results
+      {% if query %} for &ldquo;{{ query }}&rdquo; {% endif %}
+    </h1>
+    {% if search_results %}
+        {% for result in search_results %}
+          <p>
+            <a class="btn" href="{{ result.url }}" style="background: #364652; color: whitesmoke">{{ result.title }}</a>
+          </p>
+        {% endfor %}
+    {% else %}
+        {% if query %}
+            <p class="text-muted">There are no results to display. Try entering a less specific search term.</p>
+        {% else %}
+            <p class="text-muted">Please enter a query in the search form.</p>
+        {% endif %}
+    {% endif %}
+  </div>
+{% endblock %}

@@ -1,0 +1,389 @@
+@font-face {
+  font-family: 'Exo2';
+  src: url("/static/font/Exo2.ttf");
+}
+
+p, span, label, h1, h3, h4, h5, button, a, li, div {
+  font-family: 'Exo2';
+}
+
+/* main page */
+#wrapper {
+  width: 100%;
+  min-height: 100vh;
+  background: #A2C3A4;
+}
+
+h1 {
+  color: #2E0014;
+  font-weight: 800;
+  text-align: center;
+}
+
+/* navbar */
+nav {
+  background: #364652;
+}
+
+.navbar_toggle i, .navbar-brand, .navbar_toggle {
+  color: #EEE7ED !important;
+}
+
+.dropdown-menu {
+  color: #EEE7ED !important;
+}
+
+.navbar-brand {
+  color: #EEE7ED !important;
+  font-weight: 800;
+}
+
+.navbar-brand:hover {
+  color: #2E0014 !important;
+}
+
+.navbar_link {
+  color: #2E0014;
+}
+
+.navbar_link i {
+  margin-right: 5px;
+}
+
+/* user profile */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+  background: #A2C3A4;
+}
+
+body {
+  background: #A2C3A4;
+}
+
+.content_block {
+  background: #364652;
+  border-radius: 20px;
+  padding: 25px;
+}
+
+#user_name_block {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#user_avatar {
+  height: 75px;
+  width: auto;
+}
+
+#user_name {
+  margin-left: 15px;
+}
+
+#user_name p {
+  text-align: center;
+  color: #EEE7ED;
+}
+
+#user_rate {
+  margin-left: 10px;
+}
+
+#user_rate i {
+  margin-left: 3px;
+  color: yellow;
+}
+
+#user_fullname {
+  font-weight: 800;
+}
+
+#user_bio_block h4, p {
+  color: #EEE7ED;
+}
+
+#user_bio_block h4 {
+  text-align: center;
+  font-weight: 800;
+}
+
+label {
+  color: #EEE7ED;
+}
+
+#id_avatar {
+  color: #EEE7ED;
+}
+
+.form_header h4 {
+  color: #EEE7ED;
+  font-weight: 800;
+  text-align: center;
+}
+
+#field_rate i {
+  color: goldenrod;
+}
+
+#reviews_header h4, #detail_review h4 {
+  color: #EEE7ED;
+  font-weight: 800;
+  text-align: center;
+}
+
+#reviews {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-auto-rows: 1fr;
+  grid-gap: 20px;
+}
+
+.list-reviews {
+  overflow-y: scroll;
+  height: 50vh;
+}
+
+.review-title .review-description {
+  word-wrap: break-word;
+}
+
+.card {
+  background: #EEE7ED;
+}
+
+.card-header {
+  color: #2E0014;
+}
+
+.card-header i {
+  color: goldenrod;
+  margin-left: 5px;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-body h5, .card-body p {
+  color: #2E0014;
+}
+
+.btn_del_review {
+  margin-left: 15px;
+  background: #2E0014;
+  color: #EEE7ED;
+}
+
+.btn_del_review:hover {
+  background: #FB3640;
+}
+
+/* index page */
+main h1 {
+  margin-bottom: 50px;
+  color: #2E0014;
+  text-align: center;
+  font-weight: 800;
+}
+
+#index_block {
+  background: #364652;
+  padding: 15px;
+  border-radius: 20px;
+}
+
+#index_block h2, #index_block h3 {
+  color: #EEE7ED;
+  text-align: center;
+  font-weight: 800;
+}
+
+#index_block p {
+  color: #EEE7ED;
+  text-align: center;
+}
+
+#btns_block {
+  margin-top: 50px;
+}
+
+#btns_block span {
+  color: #EEE7ED;
+  font-weight: 800;
+  margin: 0 20px;
+}
+
+/* auth views */
+.form_block {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #A2C3A4;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: auto;
+  width: 100%;
+  height: 100%;
+  padding: 100px 0;
+}
+
+.form-content{
+  color: whitesmoke;
+}
+
+.form_log {
+  background: #364652;
+  padding: 25px 50px;
+  border-radius: 30px;
+}
+
+label {
+  color: #EEE7ED;
+}
+
+span {
+  color: #EEE7ED;
+}
+
+#id_avatar {
+  color: #EEE7ED;
+}
+
+#btn_reset {
+  color: #FB3640;
+}
+
+#form_header h4, #edit_meeting_header h4 {
+  color: #EEE7ED;
+  font-weight: 800;
+  text-align: center;
+}
+
+.block_redirect {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.block_redirect label {
+  margin-right: 15px;
+}
+
+#password_reset {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  margin-top: 7px;
+}
+
+#password_reset span {
+  font-size: 0.9em;
+}
+
+#password_reset span a {
+  padding: 0;
+  font-size: 0.9em;
+}
+
+/* Modal add meeting */
+.modal-content {
+  background: #364652;
+}
+
+.modal_body_header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal_header {
+  color: #EEE7ED;
+  font-weight: 800;
+}
+
+.btn_dismiss_modal {
+  background: #2E0014;
+  color: #EEE7ED;
+}
+
+.btn_dismiss_modal:hover {
+  background: #FB3640;
+}
+
+.send_process {
+  display: flex;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background: rgba(177, 177, 177, 0.7);
+	z-index: 5000;
+	visibility: hidden;
+}
+
+#meeting_detail p, #user_email {
+  color: #EEE7ED;
+}
+
+#btn_del_meeting {
+  margin-right: 250px;
+}
+
+#btn_join_meeting, #btn_edit_meeting, #btn_del_meeting, #alert_join_meeting {
+  display: none;
+}
+
+#modal_footer_user_meeting {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#btn_text_user {
+  margin-left: 20px;
+}
+
+#user_detail {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #EEE7ED;
+  border: 3px solid #2E0014;
+  border-radius: 20px;
+}
+
+#user_detail p, #user_name_block span {
+  color: #2E0014;
+}
+
+#user_fullname {
+  margin-right: 10px;
+}
+
+#user_name_block i {
+  color: goldenrod;
+}
+
+#btn_give_review {
+  margin-right: 30px;
+}

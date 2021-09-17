@@ -1,0 +1,16 @@
+{% extends "index.html" %}
+{% block style %}
+  .cvs_info {
+    margin-left: 3%;
+  }
+{% endblock %}
+{% block content %}
+  {% for cv in cvs %}
+    <div class="cvs_info">
+      <p>Title: {{ cv.title }}
+      <p>Description: {{ cv.description }}
+      <p><a href={% url "account_cv_detail" cv.pk %}>View more</a></p>
+
+    </div>
+  {% endfor %}
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load index %}
+
+{% block content %}
+<div class="chat-box">
+    {% include 'chat/dialogs_sidebar.html' %}
+    <div id="chat-log"></div>
+    <input id="chat-message-input" type="text" size="100"><br>
+    <input id="chat-message-submit" type="button" value="Send">
+</div>
+    {{ view.kwargs.user_pk|json_script:"user-pk" }}
+    {% include 'include/pagination.html' %}
+    <script>
+        const userPK = JSON.parse(document.getElementById('user-pk').textContent).toString();
+
+        const chatSocket = new WebSocket(
+            'ws://'
+            + window.location.host
+            + '/ws/chat/'
+        );
+
+        const dialogsSidebar = document.getElementById('sidenav');
+        const chatLog = document.getElementById('chat-log');
+
+        function addMessage(senderEmail, text, order) {
+            var mes = document.createElement('ul');
+            mes.textContent = (senderEmail + ':\n' + text + '\n\n')
+            if (order == "append"){ chatLog.append(mes) }
+            else { chatLog.prepend(mes) }
+        }
+
+        '{% for message in messages %}'
+            '{% if message.sender.pk == view.request.user.pk %}'
+                addMessage('Me', '{{ message.text }}', "prepend");
+            '{% else %}'
+                addMessage('{{ message.sender.email }}', '{{ message.text }}', "prepend");
+            '{% endif %}'
+        '{% endfor %}'
+
+
+        chatSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            if (data.sender == userPK){
+                addMessage(data.sender_email, data.message, "append");
+            }
+            else if (data.dialog_exists == false) {
+                var a = document.createElement('a');
+                a.textContent = data.sender_email;
+                a.href = "/chat/" + data.sender + "/";
+                dialogsSidebar.append(a);
+            }
+        };
+
+        chatSocket.onclose = function(e) {
+            console.error('Chat socket closed unexpectedly');
+        };
+
+        document.querySelector('#chat-message-submit').onclick = function(e) {
+            const messageInputDom = document.querySelector('#chat-message-input');
+            const message = messageInputDom.value;
+            chatSocket.send(JSON.stringify({
+                'message': message,
+                'user_pk': userPK
+            }));
+            messageInputDom.value = '';
+            addMessage("Me", message, "append");
+        };
+    </script>
+{% endblock %}

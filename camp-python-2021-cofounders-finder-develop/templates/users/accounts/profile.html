@@ -1,0 +1,30 @@
+{% extends "base_with_new_message_notification.html" %}
+{% block style %}
+  .user_content * {
+    margin: 5px;
+  }
+{% endblock %}
+
+{% block content %}
+  <h2>Information about user {{ user.email }}</h2>
+  {% if user.avatar %}
+    <img src="{{ user.avatar_thumbnail.url }}" alt="Profile Image">
+  {% endif %}
+
+  <div class="user_content">
+    Name: {{ user.first_name }}, {{ user.last_name }}
+    <br>
+    Email: {{ user.email }}
+    <br>
+    Location: {{ user.location }}
+    <br>
+
+    {% if user.urls %}
+      {% for url in user.urls.all %}
+        <p>url: {{ url.url }}</p>
+      {% endfor %}
+    {% endif %}
+  </div>
+
+  <a class="btn btn-secondary" href="{% url 'chat_room' user.pk %}">Chat</a>
+{% endblock %}

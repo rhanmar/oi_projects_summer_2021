@@ -1,0 +1,12 @@
+{% extends "users/auth/base_auth.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block auth_form %}
+  <div class="d-flex flex-column auth_form">
+      <p class="email_activate_text">{{ text }}</p>
+      {% if need_btn_login %}
+        <a href="{% url "login" %}" class="btn btn-dark">Login</a>
+      {% endif %}
+  </div>
+{% endblock %}

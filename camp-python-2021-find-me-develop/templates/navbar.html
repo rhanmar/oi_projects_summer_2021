@@ -1,0 +1,36 @@
+{% block navbar %}
+  {% load static %}
+  {% load watson %}
+  <nav class="navbar navbar-dark">
+    <div class="container-fluid">
+      <a href="{% url "main_page" %}" class="navbar-brand fs-4">Find me!</a>
+      <nav class="navbar-header">{% block navbar_header %}{% endblock %}</nav>
+      <ul class="nav justify-content-end">
+        <form class="d-flex me-2" action="{% url "search" %}">
+          <input name="q" value="{{request.GET.q}}" class="form-control me-2"
+                 id="search-input" type="search" autocomplete="off"
+                 list="search-result" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+          <datalist id="search-result" hidden></datalist>
+        </form>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle fs-4 navbar_toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-user"></i>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item navbar_link" href="{% url "user_profile" request.user.id %}"><i class="far fa-user"></i>Profile</a></li>
+            <li><a class="dropdown-item navbar_link" href="{% url "top_users" %}"><i class="fas fa-star"></i>Top users</a></li>
+            <li><a class="dropdown-item navbar_link" href="{% url "user_blacklist" %}"><i class="fas fa-skull-crossbones"></i>My blacklist</a></li>
+            <li><a class="dropdown-item navbar_link" href="{% url "user_edit" %}"><i class="fas fa-cog"></i>Settings</a></li>
+            <li><a class="dropdown-item navbar_link" href="{% url "logout" %}"><i class="fas fa-sign-out-alt"></i>Logout</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
+{% include "messages.html" %}
+  <script>
+    const searchUrl = "{% url "v1:search" %}"
+  </script>
+  <script src="{% static "search/js/search_autocomplete.js" %}"></script>
+{% endblock %}

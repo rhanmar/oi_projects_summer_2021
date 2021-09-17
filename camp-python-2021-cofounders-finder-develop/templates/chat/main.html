@@ -1,0 +1,17 @@
+{% extends "base_with_new_message_notification.html" %}
+{% block content %}
+<div class="chat-box">
+  <h1>Dialogs</h1>
+  {% if not dialogs %}
+    <h2>You are not in any dialog</h2>
+  {% else %}
+    {% for dialog in dialogs %}
+      {% if dialog.user1.pk == view.request.user.pk %}
+        <ul><a href="{% url 'chat_room' dialog.user2.pk %}">{{ dialog.user2.email }}</a></ul>
+      {% else %}
+        <ul><a href="{% url 'chat_room' dialog.user1.pk %}">{{ dialog.user1.email }}</a></ul>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+</div>
+{% endblock %}

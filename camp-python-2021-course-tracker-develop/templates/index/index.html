@@ -1,0 +1,185 @@
+{% extends "index_base.html" %}
+{% load static %}
+
+{% block title %}Course Tracker - {{ course.title }}{% endblock %}
+
+{% block content %}
+
+  {% if course %}
+    <div class="mb-3" id="course_header">
+      <img src="{{ course.image.url }}" id="course_img">
+      <div class="site-heading">
+        <span class="fs-1" id="course_title">{{ course.title }}</span>
+        <span class="subheading">{{ course.description|safe }}</span>
+      </div>
+    </div>
+
+    <!-- Main Content-->
+    <article class="mb-4">
+
+      <div id="plan">
+        <div class="container px-4 px-lg-5">
+          <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7" id="course">
+              <h3 class="mt-2">Your progress: {{ course_rating }}%</h3>
+              <div class="progress mb-3">
+                <div class="progress-bar" role="progressbar"
+                     aria-valuenow="{{ course_rating }}" aria-valuemin="0"
+                     aria-valuemax="100"></div>
+              </div>
+              {% for chapter in course.chapters.all %}
+                <h4 {% if now.date > chapter.finish_date %}class="expired"{% endif %}>
+                  {{ chapter.title }} ({{ chapter.start_date|date:"d N" }}
+                  - {{ chapter.finish_date|date:"d N" }})</h4>
+                <ol>
+                  {% for topic in chapter.topics.all %}
+                    <li class="mb-2">
+                      <a href="{% url "topic-detail" topic.id %}"
+                              {% if now > topic.reading_date %}
+                         class="expired" {% endif %}>
+                        {{ topic.title }}
+                      </a>
+                      {% if topic.speaker %} -
+                        <a href="{% url "user" topic.speaker.id %}">
+                          <img src="{{ topic.speaker.profile_image_thumbnail.url }}"
+                               class="speaker_avatar">
+                          {{ topic.speaker.first_name }} {{ topic.speaker.last_name }}
+                        </a>
+                      {% elif is_visitor_mentor and now <= topic.reading_date %}
+                        -
+                        <button class="btn btn-dark btn-sm btn_become_speaker"
+                                id="topic_{{ topic.id }}">
+                          Become speaker
+                        </button>
+                      {% endif %}
+                      - {{ topic.reading_date|date:"d N" }}
+                      {% if is_visitor_mentor and now <= topic.reading_date %}
+                        <div class="d-flex mt-2">
+                          <div class="choose_day_delta_block d-flex align-items-center">
+                            <span class="label_day_delta">Count days: </span>
+                            <input type="number" name="day_delta"
+                                   class="day_delta_val form-control"
+                                   id="day_delta_{{ topic.id }}" value="1"
+                                   min="1" max="5" step="1"
+                                   data-bs-toggle="tooltip"
+                                   data-bs-placement="bottom"
+                                   title="Value from 1 to 5">
+                          </div>
+                          <button class="btn btn-dark btn-sm btn_reschedule_topic"
+                                  data-topic-id="{{ topic.id }}">
+                            Reschedule topic
+                          </button>
+                        </div>
+                      {% endif %}
+                    </li>
+                  {% endfor %}
+                </ol>
+              {% endfor %}
+              {% if is_visitor_mentor %}
+                <div class="d-flex justify-content-end">
+                  <a href="{% url "planning_form" course.id %}"
+                     class="btn btn-dark" id="btn_plan_course">Plan course</a>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <div class="container d-flex flex-column mb-3 p-3" id="course_users">
+      <h3 class="text-center">Mentors</h3>
+      <div class="course_group_users mb-2">
+        {% for mentor in course.users.mentors %}
+          <a href="{% url "user" mentor.id %}" data-bs-toggle="tooltip"
+             data-bs-placement="top"
+             title="{{ mentor.get_full_name }}">
+            <img src="{{ mentor.profile_image_thumbnail.url }}" alt=""
+                 class="course_user_avatar">
+          </a>
+        {% endfor %}
+      </div>
+      <hr>
+      <h3 class="text-center">Students</h3>
+      <div class="course_group_users">
+        {% for student in course.users.students %}
+          <a href="{% url "user" student.id %}" data-bs-toggle="tooltip"
+             data-bs-placement="top"
+             title="{{ student.get_full_name }}">
+            <img src="{{ student.profile_image_thumbnail.url }}" alt=""
+                 class="course_user_avatar">
+          </a>
+        {% endfor %}
+      </div>
+    </div>
+  {% else %}
+    <div class="container">
+    <br>
+      <h2> Now you haw not any course. Please ping your mentors in offline that
+        they
+        connect us to course!</h2>
+    </div>
+  {% endif %}
+
+  <!-- Footer-->
+  <footer class="pt-2">
+    <div class="container px-4 px-lg-5">
+      <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+          <ul class="list-inline text-center">
+            <li class="list-inline-item">
+              <a href="#">
+                  <span class="fa-stack fa-lg">
+                      <i class="fas fa-circle fa-stack-2x"></i>
+                      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                  </span>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a href="#">
+                  <span class="fa-stack fa-lg">
+                      <i class="fas fa-circle fa-stack-2x"></i>
+                      <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+                  </span>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a href="#">
+                  <span class="fa-stack fa-lg">
+                      <i class="fas fa-circle fa-stack-2x"></i>
+                      <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div id="form_wrapper">
+    <form action="{% url "topic_become_speaker" %}" id="form_become_speaker"
+          method="post">
+      {% csrf_token %}
+      {{ form_become_speaker.topic_id }}
+    </form>
+
+    <form action="{% url "topic_reschedule" %}" id="form_reschedule_topic"
+          method="post">
+      {% csrf_token %}
+      {{ form_reschedule_topic.topic_id }}
+      {{ form_reschedule_topic.day_delta }}
+    </form>
+  </div>
+
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    });
+  </script>
+  <script src="{% static "js/manage_course.js" %}"></script>
+{% endblock %}

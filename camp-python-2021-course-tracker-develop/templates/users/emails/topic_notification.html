@@ -1,0 +1,22 @@
+{% extends "email_base.html" %}
+{% load i18n %}
+
+{% block email_body %}
+{% autoescape off %}
+{% blocktrans with app_url=app_url app_label=app_label %}
+  <p>Hello from {{ app_label }}!</p>
+
+  <p>
+  Today there will be a topic for which you are registered:{{ topic_name }}.
+  Follow the link so that you don't forget
+  <a href="{{ app_url }}{% url "topic-detail" pk=topic_id %}">{{ app_label }}</a>
+  Click the link below to activate your account.{% endblocktrans %}
+</p>
+
+<p>
+  {% blocktrans with app_label=app_label %}
+    Thank you for using {{ app_label }}!
+  {% endblocktrans %}
+</p>
+{% endautoescape %}
+{% endblock %}

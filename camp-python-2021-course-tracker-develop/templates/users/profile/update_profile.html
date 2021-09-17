@@ -1,0 +1,89 @@
+{% extends "users/profile/base_profile.html" %}
+
+{% block title %}Update user{% endblock %}
+
+{% block profile %}
+    <div class="container mt-3 p-3" id="form_update_profile">
+      <form class="form-profile-change" action="{% url "profile-update" %}"
+            method="post" id="myForm"
+            enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        {{ formset.management_form }}
+        <div class="main-body">
+          <div class="row gutters-sm">
+            <div class="col-md-4 mb-3">
+              <div class="card">
+                <div class="card-body">
+                  <div class="d-flex flex-column align-items-center text-center">
+                    <img src="{{ user.profile_image_thumbnail.url }}"
+                         alt="User Img"
+                         class="rounded-circle" width="150">
+                    <div class="mt-3">
+                      <h4>{{ user.get_full_name }}</h4>
+                      {% if user.is_mentor %}
+                        <p class="text-warning mb-1">Mentor</p>
+                      {% endif %}
+                      <p class="text-muted font-size-sm">{{ user.bio }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card mt-3 p-3">
+                <table border="0" cellpadding="0" cellspacing="0">
+                  <tbody>
+                  {% for form in formset.forms %}
+                    <tr>
+                      <td>
+                        {{ form.as_p }}
+                      </td>
+                      <td class="hidden">{{ form.id }}</td>
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="col-md-8">
+              <div class="card mb-3">
+                <div class="card-body">
+                  {% for field in form %}
+                    <div class="row">
+                      {{ field.errors }}
+                      <div class="col-sm-3">
+                        <h6 class="mb-0">{{ field.label_tag }}</h6>
+                      </div>
+                      <div class="col-sm-9 text-secondary">
+                        <input type="{{ field.widget_type }}"
+                               class="form-control"
+                               name="{{ field.html_name }}"
+                               id="{{ field.auto_id }}"
+                               value="{{ field.initial }}">
+                      </div>
+                    </div>
+                    <hr>
+                  {% endfor %}
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <button type="submit" class="btn btn-edit">Change</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+  <script type="text/javascript">
+    $(function () {
+      $('#myForm tbody tr').formset({
+        prefix: '{{ formset.prefix }}'
+      });
+    })
+  </script>
+{% endblock %}

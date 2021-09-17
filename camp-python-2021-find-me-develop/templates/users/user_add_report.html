@@ -1,0 +1,23 @@
+{% extends "users/base_user_profile.html" %}
+{% load crispy_forms_tags %}
+
+{% block profile_action %}{{ title }}{% endblock %}
+
+{% block profile_content %}
+  <form method="post" id="form_add_review">
+    {% csrf_token %}
+
+    <div class="d-flex justify-content-center mb-3 form_header">
+      <h4>{{ form_header }} for {{ reported_user.get_fullname }}</h4>
+    </div>
+
+    {{ form|crispy }}
+
+    <div class="mt-3 d-flex justify-content-center">
+      <button class="btn btn-danger">{{ submit_text }}</button>
+    </div>
+  </form>
+    <div class="d-flex justify-content-center mt-4">
+      <a href="{% url "user_profile" reported_user.id %}" class="btn btn-dark">Back</a>
+    </div>
+{% endblock %}

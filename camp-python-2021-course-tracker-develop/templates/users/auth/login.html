@@ -1,0 +1,40 @@
+{% extends "users/auth/base_auth.html" %}
+{% load static %}
+{% load socialaccount %}
+
+{% block title %}Login{% endblock %}
+
+
+{% block auth_form %}
+  <form action="{% url "login" %}" method="post" class="d-flex flex-column align-items-start auth_form">
+    {% csrf_token %}
+    <img class="mb-4 logo_img" src="{% static "images/logo.svg" %}" alt="">
+    <h3 class="mb-3">Please sign in</h3>
+
+    <div class="d-flex justify-content-center mb-3">
+      <a class="btn btn-dark" href="/users/github/login/">
+        Log in via github
+      </a>
+    </div>
+
+    {{ form.non_field_errors }}
+    {% for field in form %}
+      {{ field.errors }}
+      <div class="mb-3">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        <input type="{{ field.widget_type }}" class="form-control"
+               name="{{ field.name }}" id="{{ field.id_for_label }}">
+      </div>
+    {% endfor %}
+
+    <div class="form-check mb-3" id="block_remember">
+      <input type="checkbox" class="form-check-input" name="is_remember" value="remember-me" id="check_remember_user">
+      <label class="form-check-label" for="check_remember_user">Remember me</label>
+    </div>
+
+    <div class="d-flex flex-column w-100">
+      <button type="submit" class="btn btn-confirm mb-4">Sign in</button>
+      <a href="{% url "signup" %}" class="btn btn-dark">Sign up</a>
+    </div>
+  </form>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "index_base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Planning for {{ course.title }}{% endblock %}
+
+{% block content %}
+  <div class="container p-3 mt-4" id="form_planning_wrapper">
+    <form method="post">
+      {% csrf_token %}
+      {{ form|crispy }}
+      <div class="d-flex justify-content-center mt-3">
+        <button type="submit" class="btn btn-success">Plan</button>
+      </div>
+    </form>
+  </div>
+{% endblock %}

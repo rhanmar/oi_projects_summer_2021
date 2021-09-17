@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}{{ user.get_fullname }} {% block profile_action %}{% endblock %}{% endblock %}
+
+{% block body %}
+  {% include "navbar.html" %}
+  <main>
+    <div class="d-flex flex-column container content_block" id="user_info">
+      {% block profile_content %}{% endblock %}
+    </div>
+  </main>
+{% endblock %}
